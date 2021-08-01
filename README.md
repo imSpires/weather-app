@@ -11,7 +11,7 @@ This is a weather application that updates using your current location. The next
 * One Call Weather API
 
 ## Website
-https://imSpires.github.io/day-scheduler
+https://imSpires.github.io/weather-app
 
 ## Contribution
 Made by [imSpires]
