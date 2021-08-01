@@ -6,23 +6,64 @@ var weatherForecastEl = document.getElementById("weather-forecast");
 var currentTempEl = document.getElementById("current-temp");
 var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var monthsOfTheYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var time = new Date();
+var month = time.getMonth();
+var date = time.getDate();
+var day = time.getDay();
+var hour = time.getHours();
+var min = time.getMinutes();
+var ampm = '';
 
 // API Key
 var api = '0bdde19c2474f30d8bf2a1bf8b56f8b2';
 
 // Update date & time
+function setTime() {
+        // Check if min < 10 and add 0 if true
+        if (min < 10) {
+            min = '0' + min;
+        }
+    
+        // Change 24 hour to 12 hour format
+        if (hour >= 13) {
+            newHour = hour %12;
+        }
+    
+        if (newHour < 10) {
+            newHour = '0' + newHour;
+        }
+    
+        // Change AM/PM based on hour number
+        if (hour > 12) {
+            ampm = 'pm';
+        } else {
+            ampm = 'am';
+        }
+    
+        // Set time/date to elements
+        timeEl.innerHTML = newHour + ':' + min + ' ' + ampm;
+        dateEl.innerHTML = daysOfTheWeek[day] + ', ' + date + ' ' + monthsOfTheYear[month];
+}
+
+// Call functions
+setTime();
+getWeatherData();
+
+// Repeat code, read more setInterval doc
 setInterval(() => {
-    var time = new Date();
-    var month = time.getMonth();
-    var date = time.getDate();
-    var day = time.getDay();
-    var hour = time.getHours();
-    var min = time.getMinutes();
-    var ampm = '';
+
+    // Check if min < 10 and add 0 if true
+    if (min < 10) {
+        min = '0' + min;
+    }
 
     // Change 24 hour to 12 hour format
     if (hour >= 13) {
-        hour12 = hour %12;
+        newHour = hour %12;
+    }
+
+    if (newHour < 10) {
+        newHour = '0' + newHour;
     }
 
     // Change AM/PM based on hour number
@@ -33,7 +74,7 @@ setInterval(() => {
     }
 
     // Set time/date to elements
-    timeEl.innerHTML = hour12 + ':' + min + ' ' + ampm;
+    timeEl.innerHTML = newHour + ':' + min + ' ' + ampm;
     dateEl.innerHTML = daysOfTheWeek[day] + ', ' + date + ' ' + monthsOfTheYear[month];
 
 }, 1000);
@@ -50,11 +91,11 @@ function getWeatherData() {
     })
 }
 
-getWeatherData();
-
 function showWeatherData(data) {
     // Get data for current day
     var {humidity, pressure, wind_speed} = data.current;
+    timezone.innerHTML = data.timezone;
+
     currentWeatherItemsEl.innerHTML = 
     `<div class="weather-item">
         <div>Humidity</div>
@@ -74,6 +115,7 @@ function showWeatherData(data) {
     data.daily.forEach((day, index) => {
         if (index === 0) {
             currentTempEl.innerHTML = '';
+            todayForecast =
         `<div class="today" id="current-temp">
             <img src="http://openweathermap.org/img/wn/${day.weather[0].icon}@4x.png" alt="weather icon" class="w-icon">
             <div class="other">
@@ -94,5 +136,6 @@ function showWeatherData(data) {
     });
 
     // Add data to page
+    currentTempEl.innerHTML = todayForecast;
     weatherForecastEl.innerHTML = otherDayForecast;
 };

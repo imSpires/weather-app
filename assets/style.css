@@ -22,6 +22,7 @@ body {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    flex-direction: row-reverse;
 }
 
 .date-container, .place-container .time-zone {
@@ -56,6 +57,7 @@ body {
 .current-info .others .weather-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .future-forecast {
@@ -74,6 +76,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 10px;
+    border-radius: 10px;
+    padding: 5px;
+    
 }
 
 .future-forecast .today .day, .weather-forecast .weather-forecast-item .day {
