@@ -53,6 +53,46 @@ function getWeatherData() {
 getWeatherData();
 
 function showWeatherData(data) {
+    // Get data for current day
     var {humidity, pressure, wind_speed} = data.current;
-    
-}
+    currentWeatherItemsEl.innerHTML = 
+    `<div class="weather-item">
+        <div>Humidity</div>
+        <div>${humidity}</div>
+    </div>
+    <div class="weather-item">
+        <div>Pressure</div>
+        <div>${pressure}</div>
+    </div>
+    <div class="weather-item">
+        <div>Wind Speed</div>
+        <div>${wind_speed}</div>
+    </div>`;
+
+    // Get data for each forecast day
+    var otherDayForecast = "";
+    data.daily.forEach((day, index) => {
+        if (index === 0) {
+            currentTempEl.innerHTML = '';
+        `<div class="today" id="current-temp">
+            <img src="http://openweathermap.org/img/wn/${day.weather[0].icon}@4x.png" alt="weather icon" class="w-icon">
+            <div class="other">
+            <div class="day">${window.moment(day.dt*1000).format('ddd')}</div>
+                <div class="temperature">Night - ${day.temp.night}&#176; C</div>
+                <div class="temperature">Day - ${day.temp.day}&#176; C</div>
+        </div>`
+
+        } else {
+            otherDayForecast +=
+        `<div class="weather-forecast-item">
+            <div class="day">${window.moment(day.dt*1000).format('ddd')}</div>
+            <img src="http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt="weather icon" class="w-icon">
+            <div class="temperature">Night - ${day.temp.night}&#176; C</div>
+            <div class="temperature">Day - ${day.temp.day}&#176; C</div>
+        </div>`
+        }
+    });
+
+    // Add data to page
+    weatherForecastEl.innerHTML = otherDayForecast;
+};
